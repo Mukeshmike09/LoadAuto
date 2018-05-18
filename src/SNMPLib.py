@@ -1,10 +1,11 @@
 import logging
 import subprocess
+import config
 
 class SNMPLib:
     def __init__(self):
         self.MSMYPATH = '/root/.snmp/'
-        self.SUTIP = '10.211.0.184'
+        self.SUTIP = config.swMrfCredentials['mrfIp']
 
     ################################################   FUNCTION TO GET ANY SNMP MIB   ##########################################################
     def snmpgetcheck(self, Mibvalue, value):

@@ -16,7 +16,7 @@ class LoadSeries:
 
         self.logger = logging.getLogger()
         self.logger.setLevel(logging.DEBUG)
-        fh = logging.FileHandler("framework.log",mode='w')
+        fh = logging.FileHandler("framework.log", mode='w')
         formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
         fh.setFormatter(formatter)
         self.logger.addHandler(fh)
@@ -29,11 +29,11 @@ class LoadSeries:
         self.logger.debug("Entering Config.py ")
         #os.system("cp /tmp/config.py %s"%(self.logPath))
         self.logger.debug("config.py ")
-        self.mrfIp=config.swMrfCredentials['mrfIp']
-        self.mrfUserName=config.swMrfCredentials['mrfUserName']
-        self.mrfPassword=config.swMrfCredentials['mrfPassword']
+        self.mrfIp = config.swMrfCredentials['mrfIp']
+        self.mrfUserName = config.swMrfCredentials['mrfUserName']
+        self.mrfPassword = config.swMrfCredentials['mrfPassword']
         #SipAutoTesterObj=SipAutoTester.SipAutoTester(self.logPath)
-        self.logger.debug("SWMRF is Up and Running ")
+        #self.logger.debug("SWMRF is Up and Running ")
 
     def checkSetupHealth(self):
 
@@ -73,24 +73,6 @@ class LoadSeries:
         ClearMrfLogObj.clearSysLog()
         time.sleep(3)
         self.logger.debug("MRF log is cleared ")
-
-    def eval_expect_response(self, password, sshcon):
-        SSH_NEWKEY = r'(?i)are you sure you want to continue connecting \(yes/no\)\?'
-        COMMAND_PROMPT = '[#] '
-        i = sshcon.expect([pexpect.TIMEOUT, SSH_NEWKEY, '(?i)password:', COMMAND_PROMPT, pexpect.EOF], timeout=20)
-        if i == 0:
-            return False
-        elif i == 1:
-            sshcon.sendline('yes')
-            ssh_key = self.eval_expect_response(password, sshcon)
-        elif i == 2:
-            sshcon.sendline(password)
-            sshcon.expect([COMMAND_PROMPT])
-        elif i == 3:
-            pass
-        else:
-            return False
-        return True
 
     def copyLogs(self):
 
