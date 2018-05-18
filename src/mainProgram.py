@@ -149,7 +149,7 @@ class LoadSeries:
 
 obj=LoadSeries()
 obj.checkSetupHealthThread()
-obj.clearMrfLog()
-obj.topThread()
-time.sleep(2)
-obj.copyLogs()
+#obj.clearMrfLog()
+#obj.topThread()
+#time.sleep(2)
+#obj.copyLogs()
