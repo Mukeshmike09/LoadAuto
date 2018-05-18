@@ -2,9 +2,9 @@ import logging
 import subprocess
 
 class SNMPLib:
-    def __init__(self, mymspath = '/root/.snmp/', sutip = '10.211.0.184'):
-        self.MSMYPATH = mymspath
-        self.SUTIP = sutip
+    def __init__(self):
+        self.MSMYPATH = '/root/.snmp/'
+        self.SUTIP = '10.211.0.184'
 
     ################################################   FUNCTION TO GET ANY SNMP MIB   ##########################################################
     def snmpgetcheck(self, Mibvalue, value):
