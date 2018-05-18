@@ -74,7 +74,7 @@ class SNMPLib:
 
             if actualresponse[0] == value:
                 self.result = 'PASS'
-            elif:
+            else:
                 self.result = 'FAIL'
         elif snmpout.returncode > 0:
             self.result = 'FAIL'
@@ -85,7 +85,7 @@ class SNMPLib:
 
         if self.result == expected:
             self.result = 'PASS'
-        elif:
+        else:
             self.result = 'FAIL'
 
     ############     THIS FUNCTION IS USED TO SEE IF THE EXPECTED RESULT IS CORRECT OR NOT   ##########################
