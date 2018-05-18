@@ -42,30 +42,30 @@ class SipAutoTester:
         if(first == 0):
             child.sendline('10')
             next_menu = child.expect(["Append '-'"])
-        if next_menu == 0:
-            child.sendline('1050')
-            time.sleep(120)
-            k, number = commands.getstatusoutput(
-                'snmpget -v2c -Ovq -m /root/.snmp/mibs/MS.my %s dspstatMaxAudioDspUtilizationModeled.2' % (self.mrfIp))
-            print "k,mike=commands.getstatusoutput('snmpget -v2c -Ovq -m /root/.snmp/mibs/MS.my %s dspstatMaxAudioDspUtilizationModeled.2'%(self.mrfIp))"
-            # number=os.system('snmpget -v2c -Ovq -m /root/.snmp/mibs/MS.my 10.201.4.179 dspstatMaxAudioDspUtilizationModeled.2')
-            if number <= 65 and number <= 75:
-                # time.sleep(float(self.loadDur))
-                child.sendline('5')
-                quit = child.expect("selection")
-                child.sendline('0')
-                final_quit = child.expect("Entered")
-                child.sendline('Y')
-                CapacityDetobj = CapacityDet.CapacityDet(number)
-                CapacityDetobj.Dynamiccheck()
-            else:
-                # child.timeout=float(self.loadDur)
-                child.timeout = 600
-                child.sendline('5')
-                quit = child.expect("selection")
-                child.sendline('0')
-                final_quit = child.expect("Entered")
-                child.sendline('Y')
+            if next_menu == 0:
+                child.sendline('1050')
+                time.sleep(120)
+                k, number = commands.getstatusoutput(
+                    'snmpget -v2c -Ovq -m /root/.snmp/mibs/MS.my %s dspstatMaxAudioDspUtilizationModeled.2' % (self.mrfIp))
+                print "k,mike=commands.getstatusoutput('snmpget -v2c -Ovq -m /root/.snmp/mibs/MS.my %s dspstatMaxAudioDspUtilizationModeled.2'%(self.mrfIp))"
+                # number=os.system('snmpget -v2c -Ovq -m /root/.snmp/mibs/MS.my 10.201.4.179 dspstatMaxAudioDspUtilizationModeled.2')
+                if number <= 65 and number <= 75:
+                    # time.sleep(float(self.loadDur))
+                    child.sendline('5')
+                    quit = child.expect("selection")
+                    child.sendline('0')
+                    final_quit = child.expect("Entered")
+                    child.sendline('Y')
+                    CapacityDetobj = CapacityDet.CapacityDet(number)
+                    CapacityDetobj.Dynamiccheck()
+                else:
+                    # child.timeout=float(self.loadDur)
+                    child.timeout = 600
+                    child.sendline('5')
+                    quit = child.expect("selection")
+                    child.sendline('0')
+                    final_quit = child.expect("Entered")
+                    child.sendline('Y')
 
 #            	os.system("cp %sat* %s"%(self.SATPath,self.logPath))
 #obj=SipAutoTester()		
