@@ -12,6 +12,7 @@ import topProcess
 import config
 
 class mainProgram:
+
     def __init__(self):
 
         self.logger = logging.getLogger()
@@ -23,8 +24,8 @@ class mainProgram:
         con=logging.StreamHandler(sys.stdout,)
         con.setFormatter(formatter)
         self.logger.addHandler(con)
-        self.loadName=config.loadDetails['loadName']
-        self.logPath=os.popen("pwd").read().strip('\n')+"/"+self.loadName
+        self.loadName = config.loadDetails['loadName']
+        self.logPath = os.popen("pwd").read().strip('\n')+"/"+self.loadName
         self.currentPath = os.system("mkdir -p %s"%(self.logPath))
         self.logger.debug("Entering Config.py ")
         #os.system("cp /tmp/config.py %s"%(self.logPath))
@@ -111,6 +112,9 @@ class mainProgram:
         elif iii==3:
             pass
 
+        objtop = topProcess.topProcess()
+        objtop.killTOPScript()
+
         child1=pexpect.spawn("scp  %s@%s:/root/top.txt  %s"%(self.mrfUserName,self.mrfIp,self.logPath))
         iii = child1.expect([pexpect.TIMEOUT, SSH_NEWKEY, '(?i)password', COMMAND_PROMPT, pexpect.EOF])
         if iii == 0:
@@ -129,7 +133,12 @@ class mainProgram:
 
         os.system("mv /root/*dat %s"%(self.logPath))
 
-def reRun(obj):
+
+if __name__ == '__main__':
+
+    obj = mainProgram()
+
+    def reRun(obj):
 
         obj.clearMrfLog()
         obj.topThread()
@@ -139,9 +148,5 @@ def reRun(obj):
         else:
             reRun(resultSAT)
 
-
-if __name__ == '__main__':
-
-    obj = mainProgram()
     reRun(obj)
     obj.copyLogs()

@@ -108,7 +108,7 @@ class MSConfig:
         print "copying TOP script"
         SSH_NEWKEY = r'(?i)are you sure you want to continue connecting \(yes/no\)\?'
         COMMAND_PROMPT = '[#] '
-        child1 = pexpect.spawn("scp  /home/hmadiset/loadtop.sh %s@%s:/root/. " % (self.mrfUserName, self.mrfIp))
+        child1 = pexpect.spawn("scp /home/hmadiset/loadtop.sh %s@%s:/root/. " % (self.mrfUserName, self.mrfIp))
         iii = child1.expect([pexpect.TIMEOUT, SSH_NEWKEY, '(?i)password', COMMAND_PROMPT, pexpect.EOF])
         if iii == 0:
             print "scp timeout"
