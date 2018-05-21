@@ -1,6 +1,7 @@
 from SNMPLib import SNMPLib
 import config
-import time, logging
+import time
+import logging
 
 loggerlocal = logging.getLogger('framework.log')
 
@@ -27,6 +28,8 @@ class MSConfig:
             else:
                 print "SUT has less than 4 cores"
                 logging.debug("SUT is having less than 4 MP cores. ")
+        else:
+            print "SUT has " + audiocores + "cores... "
 
     # Load should be running during
     def refactorcores(self, achievedports='1000', videoload = False, confload = False):

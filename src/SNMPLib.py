@@ -7,7 +7,7 @@ class SNMPLib:
         self.MSMYPATH = '/root/.snmp/'
         self.SUTIP = config.swMrfCredentials['mrfIp']
 
-    ################################################   FUNCTION TO GET ANY SNMP MIB   ##########################################################
+    ################################################   FUNCTION TO GET ANY SNMP MIB   #################################
     def snmpgetcheck(self, Mibvalue, value):
 
         internalreponse = ''
