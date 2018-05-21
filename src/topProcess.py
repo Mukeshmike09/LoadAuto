@@ -1,6 +1,5 @@
 import pexpect
 import time
-import os
 import config
 
 class topProcess:
@@ -35,7 +34,7 @@ class topProcess:
                 if ssh_first == 1:
                     m.sendline('%s' % (self.mrfPassword))
                     time.sleep(2)
-                    index = m.expect(['password:','#'])
+                    index = m.expect(['password:', '#'])
                     if index == 1:
                         print "Connected to SUT to capture TOP "
                     elif index == 0:
@@ -53,7 +52,8 @@ class topProcess:
                 if ii == 1:
                     print "Killed top script. "
                     m.sendline(" ")
-                    j = m.expect([pexpect.EOF, '#', pexpect.TIMEOUT])
+                    m.expect([pexpect.EOF, '#', pexpect.TIMEOUT])
+
                 else:
                     print "There is some issue while killing TOP script"
 

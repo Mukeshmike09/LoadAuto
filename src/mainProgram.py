@@ -11,7 +11,7 @@ import pexpect
 import topProcess
 import config
 
-class LoadSeries:
+class mainProgram:
     def __init__(self):
 
         self.logger = logging.getLogger()
@@ -129,12 +129,19 @@ class LoadSeries:
 
         os.system("mv /root/*dat %s"%(self.logPath))
 
-def loadautomation(mainobj):
+def reRun(obj):
 
-    mainobj.logPath()
+        obj.clearMrfLog()
+        obj.topThread()
+        resultSAT = obj.startSAT()
+        if resultSAT:
+            pass
+        else:
+            reRun(resultSAT)
 
 
-if __name__ == "__main__":
+if __name__ == '__main__':
 
-    obj = LoadSeries()
-    loadautomation(obj)
+    obj = mainProgram()
+    reRun(obj)
+    obj.copyLogs()
