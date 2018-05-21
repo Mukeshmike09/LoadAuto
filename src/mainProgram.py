@@ -61,7 +61,7 @@ class LoadSeries:
 
     def topThread(self):
 
-        topThreadProcess=threading.Thread(target=self.topMrf)
+        topThreadProcess = threading.Thread(target=self.topMrf)
         topThreadProcess.setDaemon(True)
         topThreadProcess.start()
         time.sleep(3)
@@ -129,9 +129,12 @@ class LoadSeries:
 
         os.system("mv /root/*dat %s"%(self.logPath))
 
-obj=LoadSeries()
-obj.checkSetupHealthThread()
-#obj.clearMrfLog()
-#obj.topThread()
-#time.sleep(2)
-#obj.copyLogs()
+def loadautomation(mainobj):
+
+    mainobj.logPath()
+
+
+if __name__ == "__main__":
+
+    obj = LoadSeries()
+    loadautomation(obj)

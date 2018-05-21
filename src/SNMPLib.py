@@ -40,6 +40,7 @@ class SNMPLib:
         response = []
         actualresponse = []
         snmpout_data = []
+        print "snmpget -Oq -c CONV -v 2c -r 0 -t 30 -m " + self.MSMYPATH + "/MS.my " + self.SUTIP + " " + Mibvalue
         snmpout = subprocess.Popen(
             'snmpget -Oq -c CONV -v 2c -r 0 -t 30 -m %sMS.my %s %s' % (self.MSMYPATH, self.SUTIP, Mibvalue), shell=True,
             stdout=subprocess.PIPE, stderr=subprocess.PIPE)
@@ -63,6 +64,8 @@ class SNMPLib:
 
         #originalvalue = self.snmpget(Mibvalue)
         snmpout_data = []
+        print "snmpset -Oq -c CONV -v 2c -m " + self.MSMYPATH + "/MS.my " + self.SUTIP + " " + Mibvalue + " " + Type + \
+              " " + value
         snmpout = subprocess.Popen(
             'snmpset -Oq -c CONV -v 2c -m %sMS.my %s %s %s "%s"' % (self.MSMYPATH, self.SUTIP, Mibvalue, Type, value),
             shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
