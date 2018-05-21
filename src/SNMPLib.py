@@ -1,4 +1,4 @@
-import logging
+#!/usr/bin/python
 import subprocess
 import config
 

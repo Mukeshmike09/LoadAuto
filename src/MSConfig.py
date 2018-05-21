@@ -1,3 +1,4 @@
+#!/usr/bin/python
 from SNMPLib import SNMPLib
 import config
 import time

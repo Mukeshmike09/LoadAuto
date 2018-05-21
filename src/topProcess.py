@@ -1,6 +1,9 @@
+#!/usr/bin/python
+
 import pexpect
 import time
 import config
+
 
 class topProcess:
 

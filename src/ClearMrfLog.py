@@ -1,7 +1,9 @@
+#!/usr/bin/python
 import pexpect
 import time
 import config
 import logging
+
 
 class ClearMrfLog:
 
