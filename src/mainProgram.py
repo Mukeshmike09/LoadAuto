@@ -11,6 +11,10 @@ import pexpect
 import topProcess
 import config
 
+from MSConfig import MSConfig
+
+objMSConfig = MSConfig()
+
 class mainProgram:
 
     def __init__(self):
@@ -47,16 +51,21 @@ class mainProgram:
             else:
                 self.logger.debug("SWMRF is Up and Running ")
 
+    def startSAT(self):
+        SipAutoTesterObj = SipAutoTester.SipAutoTester(self.logPath)
+        SipAutoTesterObj.startSAT()
+
     def checkSetupHealthThread(self):
 
-        threadProcess=threading.Thread(target=self.checkSetupHealth)
+        threadProcess = threading.Thread(target=self.checkSetupHealth)
         threadProcess.setDaemon(True)
         threadProcess.start()
         self.logger.debug("SWMRF is Up and Running ")
 
     def topMrf(self):
 
-        topProcessObject=topProcess.topProcess()
+        topProcessObject = topProcess.topProcess()
+        objMSConfig.copytopscript()
         topProcessObject.startTop()
         print "topMrf"
 
@@ -102,7 +111,7 @@ class mainProgram:
             print "scp timeout"
         elif iii == 1:
             child1.sendline ('yes')
-            child1.expect ([pexpect.TIMEOUT, SSH_NEWKEY, '(?i)password', COMMAND_PROMPT, pexpect.EOF])
+            child1.expect([pexpect.TIMEOUT, SSH_NEWKEY, '(?i)password', COMMAND_PROMPT, pexpect.EOF])
             child1.sendline('%s'%(self.mrfPassword))
             #print("In scp 1....")
         elif iii == 2:
