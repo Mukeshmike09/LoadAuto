@@ -154,7 +154,7 @@ if __name__ == '__main__':
         obj.clearMrfLog()
         obj.topThread()
         resultSAT = obj.startSAT()
-        print "SAT Result = " + resultSAT
+        print "SAT Result = " + str(resultSAT)
         if resultSAT:
             pass
         else:
