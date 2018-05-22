@@ -16,7 +16,7 @@ class ProcessCheck:
     def mrfHealthCheck(self):
         time.sleep(10)
         self.logger.info("checking MRF..... ")
-        pingObj = subprocess.call(['ping','-c', '3','%s'%(self.mrfIp)])    ###returns 0 if success
+        pingObj = subprocess.call(['ping', '-c', '3', '%s' %(self.mrfIp)])    ###returns 0 if success
         self.logger.info("Logging MRF..... ")
         return pingObj
 

@@ -6,6 +6,7 @@ import time
 import config
 import logging
 from SNMPLib import SNMPLib
+import CapacityDet
 
 snmpobj = SNMPLib()
 
@@ -50,7 +51,10 @@ class SipAutoTester:
             next_menu = child.expect(["Append '-'"])
             if next_menu == 0:
                 child.sendline('1050')
-                time.sleep(120)
+                try:
+                    exit = child.expect('Anything', timeout=180)
+                except pexpect.TIMEOUT:
+                    print "value :"
 
                 maxAudioModel = snmpobj.snmpget('dspstatMaxAudioDspUtilizationModeled.2')
                 print "The MAX Audio Util in SUT is " + maxAudioModel + " %"
@@ -64,24 +68,24 @@ class SipAutoTester:
                     child.sendline('0')
                     final_quit = child.expect("Entered")
                     child.sendline('Y')
-                    CapacityDetobj = CapacityDet.CapacityDet(number)
+                    CapacityDetobj = CapacityDet.CapacityDet(maxAudioModel)
                     CapacityDetobj.Dynamiccheck()
                     return False
-                elif int(maxAudioModel) > 80:
+                elif int(maxAudioModel) > 75:
                     print "DSP's % are more than 80, so need to decreasing the ports"
                     child.sendline('5')
                     quit = child.expect("selection", timeout=1200)
                     child.sendline('0')
                     final_quit = child.expect("Entered")
                     child.sendline('Y')
-                    CapacityDetobj = CapacityDet.CapacityDet(number)
+                    CapacityDetobj = CapacityDet.CapacityDet(maxAudioModel)
                     CapacityDetobj.decreseThePorts()
                     return False
                 else:
                     # child.timeout=float(self.loadDur)
                     print "inside 8 hour load"
                     child.timeout = float(self.loadDur)
-                    child.sendline('1050')
+                    child.sendline(' ')
                     try:
                         exit = child.expect('Anything')
                     except pexpect.TIMEOUT:

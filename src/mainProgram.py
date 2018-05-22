@@ -53,7 +53,8 @@ class mainProgram:
 
     def startSAT(self):
         SipAutoTesterObj = SipAutoTester.SipAutoTester(self.logPath)
-        SipAutoTesterObj.startSAT()
+        resultSAT = SipAutoTesterObj.startSAT()
+        return resultSAT
 
     def checkSetupHealthThread(self):
 
@@ -88,7 +89,7 @@ class mainProgram:
 
         SSH_NEWKEY = r'(?i)are you sure you want to continue connecting \(yes/no\)\?'
         COMMAND_PROMPT = '[#] '
-        child1=pexpect.spawn("scp  %s@%s:/var/log/messages.*  %s"%(self.mrfUserName,self.mrfIp,self.logPath))
+        child1=pexpect.spawn("scp  %s@%s:/var/log/messages\{,\.*\}  %s"%(self.mrfUserName,self.mrfIp,self.logPath))
         iii = child1.expect([pexpect.TIMEOUT, SSH_NEWKEY, '(?i)password', COMMAND_PROMPT, pexpect.EOF])
         if iii == 0:
             print "scp timeout"
@@ -99,7 +100,7 @@ class mainProgram:
             #print("In scp 1....")
         elif iii == 2:
             child1.sendline('%s'%(self.mrfPassword))
-            child1.expect(['#',pexpect.TIMEOUT, SSH_NEWKEY, '(?i)password', COMMAND_PROMPT, pexpect.EOF])
+            child1.expect(['#', pexpect.TIMEOUT, SSH_NEWKEY, '(?i)password', COMMAND_PROMPT, pexpect.EOF])
             #print("In scp 2....")
         elif iii==3:
             pass
@@ -146,16 +147,19 @@ class mainProgram:
 if __name__ == '__main__':
 
     obj = mainProgram()
+    objMSConfig.copytopscript()
 
     def reRun(obj):
 
         obj.clearMrfLog()
         obj.topThread()
         resultSAT = obj.startSAT()
+        print "SAT Result = " + resultSAT
         if resultSAT:
             pass
         else:
-            reRun(resultSAT)
+            print "Going for reRun"
+            reRun(obj)
 
     reRun(obj)
     obj.copyLogs()
