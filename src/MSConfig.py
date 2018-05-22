@@ -91,6 +91,15 @@ class MSConfig:
         else:
             loggerlocal.debug("SUT is still OSS, Please check ")
 
+    def sutresetstats(self):
+
+        snmpobj.snmpset('statInterval.0', '5', 'u')
+        if snmpobj.snmpget('statInterval.0') == "5":
+            loggerlocal.debug("statInterval is 5")
+        else:
+            loggerlocal.debug("***ERROR statInterval is not 5")
+        snmpobj.snmpset('cardstatReset.1', '1', 'i')
+
     def sutreboot(self):
 
         loggerlocal.debug("Rebooting SUT ")

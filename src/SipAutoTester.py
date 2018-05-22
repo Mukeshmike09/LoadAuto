@@ -25,28 +25,30 @@ class SipAutoTester:
         self.logger.debug("clearing MRF Log ")
         self.loadAT = config.loadDetails['ATFile']
         self.loadATmodel = config.loadDetails['modelCfg']
+        self.sutctrlip = config.swMrfCredentials['MS_Server_Control_IP']
 
-    def prepareMscConfig(self):
+    def prepareATcfg(self):
 
-        print "Replacing MscConfig.cfg LocalHost = " + self.rtpgIp
-        os.system("sed '/LocalHost/d' /root/SAT/MscConfig.cfg")
-        os.system('sed -e "\$a%s" /root/SAT/MscConfig.cfg' %(self.rtpgIp))
+        print "Replacing SipMSIPAddress & SipMSIPAddressSCC values "
+        os.system('sed -i "/SipMSIPAddress=/d" %s/%s' %(self.SATPath, self.loadAT))
+        os.system('sed -i "\$aSipMSIPAddress=%s\nSipMSIPAddressSCC=%s" %s/%s' %(self.sutctrlip, self.mrfIp,
+                                                                                self.SATPath, self.loadAT))
 
     def startSAT(self):
         os.system('cp /tmp/config.py  .')
-        os.system('rm -rf %sat*'%(self.SATPath))
-        os.system('cp %sMscConfig.cfg .'%(self.SATPath))
+        os.system('rm -rf %sat*' %(self.SATPath))
+        os.system('cp %sMscConfig.cfg .' %(self.SATPath))
         time.sleep(10)
-        os.system('cp %s%s %s/models.standard/'%(self.SATPath,self.loadATmodel,self.SATPath))
-        child=pexpect.spawn('%sSipAutoTester_Rel_0403 -c %s%s'%(self.SATPath,self.SATPath,self.loadAT))
-        child.timeout=float(self.loadDur)
-        first = child.expect(['0 : %s'%(self.rtpgIp)])
+        os.system('cp %s%s %s/models.standard/' %(self.SATPath, self.loadATmodel, self.SATPath))
+        child=pexpect.spawn('%sSipAutoTester_Rel_0403 -c %s%s' %(self.SATPath, self.SATPath, self.loadAT))
+        child.timeout = float(self.loadDur)
+        first = child.expect(['0 : %s' %(self.rtpgIp)])
         child.logfile = sys.stdout
         child_before = child.before
         print child_before
         child_after = child.after
         print child_after
-        if(first == 0):
+        if first == 0:
             child.sendline('10')
             next_menu = child.expect(["Append '-'"])
             if next_menu == 0:
@@ -79,7 +81,7 @@ class SipAutoTester:
                     final_quit = child.expect("Entered")
                     child.sendline('Y')
                     CapacityDetobj = CapacityDet.CapacityDet(maxAudioModel)
-                    CapacityDetobj.decreseThePorts()
+                    CapacityDetobj.decreaseThePorts()
                     return False
                 else:
                     # child.timeout=float(self.loadDur)
@@ -96,4 +98,5 @@ class SipAutoTester:
                     child.sendline('0')
                     final_quit = child.expect("Entered")
                     child.sendline('Y')
+                    print "Load Model ended. @ The End"
                     return True

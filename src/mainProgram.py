@@ -53,6 +53,7 @@ class mainProgram:
 
     def startSAT(self):
         SipAutoTesterObj = SipAutoTester.SipAutoTester(self.logPath)
+        SipAutoTesterObj.prepareATcfg()
         resultSAT = SipAutoTesterObj.startSAT()
         return resultSAT
 
@@ -61,7 +62,7 @@ class mainProgram:
         threadProcess = threading.Thread(target=self.checkSetupHealth)
         threadProcess.setDaemon(True)
         threadProcess.start()
-        self.logger.debug("SWMRF is Up and Running ")
+        self.logger.debug("SWMRF is UP and Running ")
 
     def topMrf(self):
 
@@ -151,6 +152,7 @@ if __name__ == '__main__':
 
     def reRun(obj):
 
+        MSConfig.sutresetservice()
         obj.clearMrfLog()
         obj.topThread()
         resultSAT = obj.startSAT()
@@ -160,6 +162,7 @@ if __name__ == '__main__':
         else:
             print "Going for reRun"
             reRun(obj)
-
+    print "Load Execution Started... "
     reRun(obj)
     obj.copyLogs()
+    print "Load Execution Completed... "
