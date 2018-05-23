@@ -13,7 +13,7 @@ class CapacityDet:
     def Dynamiccheck(self):
         # NumofConn = str(os.popen('grep NumberOfConnections= %s%s'%(self.SATPath,self.loadAT)).read()).strip("\n")
         NumofConn1 = commands.getoutput('grep "^NumberOfConnections=" %s%s | tail -1' % (self.SATPath, self.loadAT))
-        #		number1=int(self.number)
+        # number1=int(self.number)
         NumofConf1 = commands.getoutput('grep "^NumberOfConferences=" %s%s | tail -1' % (self.SATPath, self.loadAT))
         # NumofConf = str(os.popen('grep NumberOfConferences= %s%s'%(self.SATPath,self.loadAT)).read()).strip("\n")
         NumofConn = NumofConn1.split("=")[1]
@@ -27,7 +27,7 @@ class CapacityDet:
         commands.getoutput(
             "sed -i 's/%s/NumberOfConferences=%s/g' %s%s" % (NumofConf1, UpdateValOfConn, self.SATPath, self.loadAT))
 
-    def decreseThePorts(self):
+    def decreaseThePorts(self):
         NumofConf1 = commands.getoutput('grep NumberOfConferences= %s%s' % (self.SATPath, self.loadAT))
         NumofConf = NumofConf1.split("=")[1]
         UpdateValOfConf = int(NumofConf) - 4

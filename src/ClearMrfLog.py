@@ -18,8 +18,9 @@ class ClearMrfLog:
     def clearSysLog(self):
 
         SSH_NEWKEY = r'(?i)are you sure you want to continue connecting \(yes/no\)\?'
+        print "SSHing to SUT... "
         try:
-            m=pexpect.spawn('ssh %s@%s'%(self.mrfUserName,self.mrfIp))
+            m = pexpect.spawn('ssh %s@%s' %(self.mrfUserName, self.mrfIp))
         except IOError:
             print "there is problem"
         else:
@@ -38,38 +39,41 @@ class ClearMrfLog:
                 m.expect('password:')
                 m.sendline('mypassword')
                 time.sleep(2)
-                index =  m.expect(['password:', '#'])
+                index = m.expect(['password:', '#'])
                 if index == 1:
                     print "password connected"
                 elif index == 0:
                     print "wrong password."
             elif first == 2:
-                print  "password connected"
+                print "password connected"
+            print "Clearing syslog... "
             m.sendline('cat /dev/null > /var/log/messages')
             m.sendline('rm -rf /var/log/messages.*')
-            i=m.expect([pexpect.EOF, '#'])
-            if i==0:
+            i = m.expect([pexpect.EOF, '#'])
+            if i == 0:
                 print('Syslog clearing failed!!!')
                 time.sleep(2)
-            elif i==1:
+            elif i == 1:
                 print('Syslog cleared successfully')
+            print "Clearing stats file... "
             m.sendline('cat /dev/null > /var/opt/swms/stats/statistics.txt')
             i=m.expect([pexpect.EOF, '#'])
-            if i==0:
+            if i == 0:
                 print('statistics clearing failed!!!')
                 time.sleep(2)
-            elif i==1:
+            elif i == 1:
                 print('statistics cleared successfully')
+            print "Clearing top file..."
             m.sendline('cat /dev/null > top.txt')
-            i=m.expect([pexpect.EOF, '#'])
-            if i==0:
+            i = m.expect([pexpect.EOF, '#'])
+            if i == 0:
                 print('top clearing failed!!!')
                 time.sleep(2)
-            elif i==1:
+            elif i == 1:
                 print('top cleared successfully')
             m.sendline('cat /dev/null > top.txt')
             i=m.expect([pexpect.EOF, '#'])
-            if i==0:
+            if i == 0:
                 print('top clearing failed!!!')
                 time.sleep(2)
             elif i == 1:

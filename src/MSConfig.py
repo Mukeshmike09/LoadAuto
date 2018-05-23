@@ -81,32 +81,48 @@ class MSConfig:
 
     def sutresetservice(self):
 
+        print "Performing SUT service restart... "
         loggerlocal.debug("Making SUT OOS ")
         snmpobj.snmpset('comSetServiceMode.1.2', '2', 'i')
         time.sleep(3)
         snmpobj.snmpset('comSetServiceMode.1.2', '1', 'i')
         time.sleep(5)
-        if snmpobj.snmpget('comSetServiceMode.1.2') == 1:
+        if snmpobj.snmpget('comSetServiceMode.1.2') == "inServiceMode":
             loggerlocal.debug("SUT is InService")
         else:
             loggerlocal.debug("SUT is still OSS, Please check ")
 
+    def sutresetstats(self):
+
+        print "Re-setting Stats and Stats Interval "
+        snmpobj.snmpset('statInterval.0', '5', 'u')
+        if snmpobj.snmpget('statInterval.0') == "5":
+            loggerlocal.debug("statInterval is 5")
+        else:
+            loggerlocal.debug("***ERROR statInterval is not 5")
+        snmpobj.snmpset('cardstatReset.1', '1', 'i')
+
     def sutreboot(self):
 
         loggerlocal.debug("Rebooting SUT ")
+        print "SUT is going for reboot... "
         snmpobj.snmpset('nodeReboot.0', '1', 'i')
         reboot = True
+        sleeptime = 300
         while not reboot:
-            time.sleep(60)
-            if snmpobj.snmpget('comSetServiceMode.1.2') == 1:
+            time.sleep(sleeptime)
+            if snmpobj.snmpget('comSetServiceMode.1.2') != "inServiceMode":
                 loggerlocal.debug("Waiting for SUT to come UP")
+                print "SUT is still not UP... waiting for 120 sec more"
+                sleeptime = 120
             else:
                 loggerlocal.debug("SUT is UP and Running... ")
+                print "SUT is UP and Running"
                 reboot = False
 
     def copytopscript(self):
 
-        print "copying TOP script"
+        print "Copying TOP script"
         SSH_NEWKEY = r'(?i)are you sure you want to continue connecting \(yes/no\)\?'
         COMMAND_PROMPT = '[#] '
         child1 = pexpect.spawn("scp /home/hmadiset/loadtop.sh %s@%s:/root/. " % (self.mrfUserName, self.mrfIp))
