@@ -81,6 +81,7 @@ class MSConfig:
 
     def sutresetservice(self):
 
+        print "Performing SUT service restart... "
         loggerlocal.debug("Making SUT OOS ")
         snmpobj.snmpset('comSetServiceMode.1.2', '2', 'i')
         time.sleep(3)
@@ -93,6 +94,7 @@ class MSConfig:
 
     def sutresetstats(self):
 
+        print "Re-setting Stats and Stats Interval "
         snmpobj.snmpset('statInterval.0', '5', 'u')
         if snmpobj.snmpget('statInterval.0') == "5":
             loggerlocal.debug("statInterval is 5")
@@ -120,7 +122,7 @@ class MSConfig:
 
     def copytopscript(self):
 
-        print "copying TOP script"
+        print "Copying TOP script"
         SSH_NEWKEY = r'(?i)are you sure you want to continue connecting \(yes/no\)\?'
         COMMAND_PROMPT = '[#] '
         child1 = pexpect.spawn("scp /home/hmadiset/loadtop.sh %s@%s:/root/. " % (self.mrfUserName, self.mrfIp))

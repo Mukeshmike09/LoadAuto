@@ -7,6 +7,7 @@ import config
 import logging
 from SNMPLib import SNMPLib
 import CapacityDet
+import commands
 
 snmpobj = SNMPLib()
 
@@ -30,9 +31,10 @@ class SipAutoTester:
     def prepareATcfg(self):
 
         print "Replacing SipMSIPAddress & SipMSIPAddressSCC values "
-        os.system('sed -i "/SipMSIPAddress=/d" %s/%s' %(self.SATPath, self.loadAT))
-        os.system('sed -i "\$aSipMSIPAddress=%s\nSipMSIPAddressSCC=%s" %s/%s' %(self.sutctrlip, self.mrfIp,
-                                                                                self.SATPath, self.loadAT))
+        commands.getoutput("sed -i '/SipMSIPAddress/d' %s/%s" %(self.SATPath, self.loadAT))
+        commands.getoutput('sed -i "\$aSipMSIPAddress=%s" %s/%s'%(self.sutctrlip, self.SATPath, self.loadAT))
+        commands.getoutput('sed -i "\$aSipMSIPAddressSCC=%s" %s/%s'%(self.mrfIp, self.SATPath, self.loadAT))
+
 
     def startSAT(self):
         os.system('cp /tmp/config.py  .')

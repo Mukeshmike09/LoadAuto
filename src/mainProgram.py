@@ -152,7 +152,7 @@ if __name__ == '__main__':
 
     def reRun(obj):
 
-        MSConfig.sutresetservice()
+        objMSConfig.sutresetservice()
         obj.clearMrfLog()
         obj.topThread()
         resultSAT = obj.startSAT()
